@@ -33,17 +33,17 @@ samples, guidance on mobile development, and a full API reference.
 - Enables secure information flow through sms.
 - The algorithm used: AES CBC 128bits
 - Used inputs for encryption: PlainText, Encryption Key, Nonce
-    Plain Text: Message
-    Encryption Key: 16 bit string
-    Nonce: 16 bit string
+    - Plain Text: Message
+    - Encryption Key: 16 bit string
+    - Nonce: 16 bit string
 - Nonce value is hardcorded into the app.
 - The app sends encrypted text to the reciever's phone.
 - Users should send passwords using their own ways.
 - Anyone who doesn't have the app stands no chance of decrypting because anyone outside doesn't have access to the nonce value.
 - Used inputs for decryption: CypherText, Decryption Key, Nonce
-    CypherText: Recieved encrypted message
-    Decryption Key: 16 bit string
-    Nonce: 16 bit string
+    - CypherText: Recieved encrypted message
+    - Decryption Key: 16 bit string
+    - Nonce: 16 bit string
 
 ## Dependencies
 
