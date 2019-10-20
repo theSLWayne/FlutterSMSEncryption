@@ -37,16 +37,21 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  //_MyHomePageState createState() => _MyHomePageState();
+  State<StatefulWidget> createState() {
+    return _MyHomePageState();
+  }
 }
 enum FormType{inbox,send}
 class _MyHomePageState extends State<MyHomePage> {
   
-  FormType _formType = FormType.inbox;
+  FormType _formType = FormType.send;
   
   String _recipient_no;
   String _message = ' ';
+  String _messageR = '';
   String _decrypted_message = ' ';
+  String _decrypted_messageR = '';
   final myController = TextEditingController();
   final myController2 = TextEditingController();
   final myController3 = TextEditingController();
@@ -60,15 +65,15 @@ class _MyHomePageState extends State<MyHomePage> {
     super.dispose();
   }
 
-  void inbox(){
-    setState(() {
-      _formType = FormType.inbox;
-    });
-  }
-
   void send(){
     setState(() {
       _formType = FormType.send;
+    });
+  }
+
+  void inbox(){
+    setState(() {
+      _formType = FormType.inbox;
     });
   }
 
@@ -257,8 +262,11 @@ class _MyHomePageState extends State<MyHomePage> {
                             //String iv = 'xxxxxxxxxxxxxxxx';
                             //String nonce = await Cipher2.generateNonce();
                             String nonce = '+QVNyK7dTosxe8QU';
-
                             _message = await Cipher2.encryptAesCbc128Padding7(plainText, key, nonce);
+                            setState(() {
+                              _messageR = _message;
+                            });
+                            
                             print(_message);
                             //String decryptedString = await Cipher2.decryptAesCbc128Padding7(_message, key, nonce);
                             //print(decryptedString);
@@ -282,7 +290,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Container(
                       padding: EdgeInsets.fromLTRB(50, 50, 50, 0),
                       child: Text(
-                        _message,
+                        _messageR,
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.clip,
                         style: TextStyle(fontWeight: FontWeight.bold),
@@ -361,7 +369,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         controller: myController4,
                       decoration: const InputDecoration(
                         // icon: Icon(Icons.email),
-                        hintText: 'Enter Encryption Key',
+                        hintText: 'Enter Decryption Key',
                         labelText: 'Key (16 characters)',
                         hasFloatingPlaceholder: true,
                         focusedBorder: OutlineInputBorder(
@@ -413,6 +421,9 @@ class _MyHomePageState extends State<MyHomePage> {
                             String nonce = '+QVNyK7dTosxe8QU';
                             String enteredPassword = myController4.text; //The password user enters. Should be used for decryption.
                             _decrypted_message = await Cipher2.decryptAesCbc128Padding7(_recieved_message, enteredPassword, nonce);
+                            setState(() {
+                              _decrypted_messageR = _decrypted_message;
+                            });
                             print(_decrypted_message);
                             print(nonce);
                             print(key);
@@ -434,7 +445,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Container(
                       padding: EdgeInsets.fromLTRB(50, 50, 50, 0),
                       child: Text(
-                        _decrypted_message,
+                        _decrypted_messageR,
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.clip,
                         style: TextStyle(fontWeight: FontWeight.bold),
